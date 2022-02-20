@@ -29,6 +29,10 @@ class GetAccountStatus extends UseCase<Params, AccountStatus> {
 
     const undergraduate = await this.accountRepository.isUndergraduate(studentId);
 
+    console.log(
+      `${studentId}씨는 ${undergraduate ? '재학생입니다.' : '졸업생 또는 수료생입니다.'}`
+    );
+
     return new AccountStatus(undergraduate);
   }
 }

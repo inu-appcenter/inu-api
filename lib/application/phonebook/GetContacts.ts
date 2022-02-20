@@ -11,6 +11,8 @@ class GetContacts extends UseCase<void, Contact[]> {
   }
 
   async onExecute(params: void): Promise<Contact[]> {
+    console.log('연락처를 모두 가져옵니다.');
+
     return await this.contactRepository.getContacts();
   }
 }
