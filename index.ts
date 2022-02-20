@@ -1,6 +1,8 @@
 import {startServer} from './lib/express/server';
+import {startOracle} from './lib/oracle/db';
 
 async function start() {
+  await startOracle();
   await startServer();
 }
 

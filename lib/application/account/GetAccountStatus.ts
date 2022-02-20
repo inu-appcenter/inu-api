@@ -2,16 +2,13 @@ import config from '../../../config';
 import assert from 'assert';
 import UseCase from '../../common/base/UseCase';
 import {decrypt} from '../../common/utils/cipher';
-import AccountRepository from './AccountRepository';
+import AccountStatus from './entity/AccountStatus';
+import AccountRepository from './data/AccountRepository';
 import {InvalidCredentials} from '../../common/error/errors';
 
 type Params = {
   studentId: string;
   passwordEncrypted: string;
-};
-
-type AccountStatus = {
-  undergraduate: boolean;
 };
 
 /**
@@ -27,11 +24,12 @@ class GetAccountStatus extends UseCase<Params, AccountStatus> {
     const password = decrypt(passwordEncrypted, config.auth.loginKey);
     const authenticated = await this.accountRepository.isAuthenticated(studentId, password);
 
+    // 학번/비번 틀리면(=본인 아니면) 알려주지도 않을거임.
     assert(authenticated, InvalidCredentials());
 
     const undergraduate = await this.accountRepository.isUndergraduate(studentId);
 
-    return {undergraduate};
+    return new AccountStatus(undergraduate);
   }
 }
 
