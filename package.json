@@ -1,25 +1,26 @@
 {
-  "name": "__NAME__",
+  "name": "inu-api",
   "version": "0.0.1",
-  "description": "__DESCRIPTION__",
+  "description": "공개된 교내 API 서버입니다.",
   "scripts": {
     "test": "jest",
     "dev": "nodemon --exec ts-node index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "preview": "tsc && node dist/index.js"
+    "preview": "tsc && node dist/index.js",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/__REPOSITORY__.git"
+    "url": "git+https://github.com/inu-appcenter/inu-api.git"
   },
   "keywords": [],
   "author": "potados99",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/__REPOSITORY__/issues"
+    "url": "https://github.com/inu-appcenter/inu-api/issues"
   },
-  "homepage": "https://github.com/__REPOSITORY__#readme",
+  "homepage": "https://github.com/inu-appcenter/inu-api#readme",
   "dependencies": {
     "node-fetch": "^2.6.1"
   },
