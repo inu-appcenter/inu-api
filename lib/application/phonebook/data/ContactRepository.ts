@@ -1,5 +1,6 @@
 import BaseOracleRepository from '../../../common/base/BaseOracleRepository';
 import Contact from '../entity/Contact';
+import {log} from '../../../common/utils/log';
 
 export default class ContactRepository extends BaseOracleRepository {
   async getContacts(): Promise<Contact[]> {
@@ -17,6 +18,8 @@ export default class ContactRepository extends BaseOracleRepository {
     `;
 
     const result = await this.execute(sql);
+
+    log(result);
 
     // @ts-ignore
     return result.rows?.map((row) => Contact.fromRow(row)) ?? [];
