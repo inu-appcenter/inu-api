@@ -4,7 +4,7 @@ import UseCase from '../../common/base/UseCase';
 import {decrypt} from '../../common/utils/cipher';
 import AccountStatus from './entity/AccountStatus';
 import AccountRepository from './data/AccountRepository';
-import {InvalidCredentials} from '../../common/error/errors';
+import {InvalidCredentials, InvalidParameters} from '../../common/error/errors';
 
 type Params = {
   studentId: string;
@@ -21,7 +21,7 @@ class GetAccountStatus extends UseCase<Params, AccountStatus> {
   }
 
   async onExecute({studentId, passwordEncrypted}: Params): Promise<AccountStatus> {
-    const password = decrypt(passwordEncrypted, config.auth.loginKey);
+    const password = this.decryptPassword(passwordEncrypted);
     const authenticated = await this.accountRepository.isAuthenticated(studentId, password);
 
     // 학번/비번 틀리면(=본인 아니면) 알려주지도 않을거임.
@@ -34,6 +34,14 @@ class GetAccountStatus extends UseCase<Params, AccountStatus> {
     );
 
     return new AccountStatus(undergraduate);
+  }
+
+  private decryptPassword(encrypted: string) {
+    try {
+      return decrypt(encrypted, config.auth.loginKey);
+    } catch (e) {
+      throw InvalidParameters();
+    }
   }
 }
 
