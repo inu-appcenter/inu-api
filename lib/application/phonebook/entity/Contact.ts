@@ -7,8 +7,8 @@ export default class Contact {
     readonly college: string
   ) {}
 
-  static fromRow({name, position, phone, dpart, part}: Record<string, any>) {
-    return new Contact(name, position, phone, dpart, part);
+  static fromRow({NAME, POSITION, PHONE, DPART, PART}: Record<string, any>) {
+    return new Contact(NAME, POSITION, PHONE, DPART, PART);
   }
 
   toResponse() {
