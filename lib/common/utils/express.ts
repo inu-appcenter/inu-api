@@ -1,7 +1,7 @@
 import fs from 'fs';
+import {log} from './log';
 import {join} from 'path';
 import express from 'express';
-import {log} from './log';
 
 export async function registerRoutes(app: express.Application, dir: string = '/routes') {
   const files = fs.readdirSync(dir);
