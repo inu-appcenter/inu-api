@@ -13,6 +13,16 @@ export default class Contact {
 
   toResponse() {
     return {
+      name: this.name,
+      position: this.position,
+      phone: this.phone,
+      department: this.department,
+      college: this.college,
+    };
+  }
+
+  toLegacyResponse() {
+    return {
       NAME: this.name,
       POSITION: this.position,
       PHONE: this.phone,
