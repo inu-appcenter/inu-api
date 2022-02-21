@@ -1,3 +1,4 @@
+import {log} from '../../common/utils/log';
 import UseCase from '../../common/base/UseCase';
 import Contact from './entity/Contact';
 import ContactRepository from './data/ContactRepository';
@@ -11,7 +12,7 @@ class GetContacts extends UseCase<void, Contact[]> {
   }
 
   async onExecute(params: void): Promise<Contact[]> {
-    console.log('연락처를 모두 가져옵니다.');
+    log('연락처를 모두 가져옵니다.');
 
     return await this.contactRepository.getContacts();
   }
