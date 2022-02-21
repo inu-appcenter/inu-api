@@ -19,8 +19,6 @@ export default class ContactRepository extends BaseOracleRepository {
 
     const result = await this.execute(sql);
 
-    log(result);
-
     // @ts-ignore
     return result.rows?.map((row) => Contact.fromRow(row)) ?? [];
   }
