@@ -2,7 +2,7 @@ import BaseOracleRepository from '../../../common/base/BaseOracleRepository';
 
 export default class AccountRepository extends BaseOracleRepository {
   async isUndergraduate(studentId: string): Promise<boolean> {
-    const sql = 'SELECT F_ENROLL_CHECK(:studentId) AS success FROM DUAL';
+    const sql = 'SELECT F_ENROLL_APP_CHECK(:studentId) AS success FROM DUAL';
 
     const result = await this.execute(sql, {studentId});
 
