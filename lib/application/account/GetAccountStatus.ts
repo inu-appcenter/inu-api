@@ -1,3 +1,4 @@
+import {log} from '../../common/utils/log';
 import config from '../../../config';
 import assert from 'assert';
 import UseCase from '../../common/base/UseCase';
@@ -5,7 +6,6 @@ import {decrypt} from '../../common/utils/cipher';
 import AccountStatus from './entity/AccountStatus';
 import AccountRepository from './data/AccountRepository';
 import {InvalidCredentials, InvalidParameters} from '../../common/error/errors';
-import {log} from '../../common/utils/log';
 
 type Params = {
   studentId: string;
@@ -22,8 +22,8 @@ class GetAccountStatus extends UseCase<Params, AccountStatus> {
   }
 
   async onExecute({studentId, passwordEncrypted}: Params): Promise<AccountStatus> {
-    const password = this.decryptPassword(passwordEncrypted);
-    const authenticated = await this.accountRepository.isAuthenticated(studentId, password);
+    const plainPassword = this.decryptPassword(passwordEncrypted);
+    const authenticated = await this.accountRepository.isAuthenticated(studentId, plainPassword);
 
     // 학번/비번 틀리면(=본인 아니면) 알려주지도 않을거임.
     assert(authenticated, InvalidCredentials());
