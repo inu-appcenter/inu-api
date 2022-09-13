@@ -1,15 +1,13 @@
 import {log} from '../../common/utils/log';
-import config from '../../../config';
 import assert from 'assert';
 import UseCase from '../../common/base/UseCase';
-import {decrypt} from '../../common/utils/cipher';
 import AccountStatus from './entity/AccountStatus';
 import AccountRepository from './data/AccountRepository';
-import {InvalidCredentials, InvalidParameters} from '../../common/error/errors';
+import {InvalidCredentials} from '../../common/error/errors';
 
 type Params = {
   studentId: string;
-  passwordEncrypted: string;
+  password: string;
 };
 
 /**
@@ -21,9 +19,8 @@ class GetAccountStatus extends UseCase<Params, AccountStatus> {
     super();
   }
 
-  async onExecute({studentId, passwordEncrypted}: Params): Promise<AccountStatus> {
-    const plainPassword = this.decryptPassword(passwordEncrypted);
-    const authenticated = await this.accountRepository.isAuthenticated(studentId, plainPassword);
+  async onExecute({studentId, password}: Params): Promise<AccountStatus> {
+    const authenticated = await this.accountRepository.isAuthenticated(studentId, password);
 
     // 학번/비번 틀리면(=본인 아니면) 알려주지도 않을거임.
     assert(authenticated, InvalidCredentials());
@@ -33,14 +30,6 @@ class GetAccountStatus extends UseCase<Params, AccountStatus> {
     log(`${studentId}씨는 ${undergraduate ? '재학생입니다.' : '졸업생 또는 수료생입니다.'}`);
 
     return new AccountStatus(undergraduate);
-  }
-
-  private decryptPassword(encrypted: string) {
-    try {
-      return decrypt(encrypted, config.auth.loginKey);
-    } catch (e) {
-      throw InvalidParameters();
-    }
   }
 }
 

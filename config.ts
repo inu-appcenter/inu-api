@@ -5,10 +5,6 @@ export default {
     port: getEnv('PORT', 8888),
   },
 
-  auth: {
-    loginKey: requireEnv('LOGIN_KEY'),
-  },
-
   db: {
     user: requireEnv('DB_USER'),
     password: requireEnv('DB_PASSWORD'),
